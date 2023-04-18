@@ -95,7 +95,7 @@ const Gallary = (props: any) => {
               >
                 <img src={src} className={classes.child} alt="" />
                 {isHovered && (
-                  <p className={classes.distant}>{distance.toFixed(6)}</p>
+                  <p className={classes.distant}>{img.filename}</p>
                 )}
               </div>
             );

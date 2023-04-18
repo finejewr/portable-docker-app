@@ -105,8 +105,9 @@ async def search_images(image: UploadFile = File(...), topk: int = Form(TOP_K), 
         with open(img_path, "wb+") as f:
             f.write(content)
         paths, distances = do_search(table_name, img_path, topk, MODEL, MILVUS_CLI)
-        res = dict(zip(paths, distances))
-        res = sorted(res.items(), key=lambda item: item[1])
+        filenames = [os.path.basename(path) for path in paths]
+        res = [{"filename": filename, "src": path, "distance": distance} for filename, path, distance in zip(filenames, paths, distances)]
+        res = sorted(res, key=lambda item: item['distance'])
         LOGGER.info("Successfully searched similar images!")
         return res
     except Exception as e:
